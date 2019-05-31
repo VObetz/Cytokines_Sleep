@@ -1,0 +1,57 @@
+#pull the data into R
+library(readxl)
+sleepdata <- read_excel("C:/Users/veray/Desktop/sleepdata.xlsx")
+View(sleepdata)
+
+#can I just use this command once? 
+attach(sleepdata)
+
+#compute the means for each variable, create new variables
+#diary variables
+sleepdata$dTSTmean <- (dTST10 + dTST14 + dTST18)/3
+sleepdata$dSLmean <- (dSL10 + dSL14 + dSL18)/3
+sleepdata$dSEmean <- (dSE1_10 + dSE1_14 + dSE1_18 + dSE2_10 + dSE2_14 + dSE2_18)/6
+sleepdata$dWASOmean <- (dWASO10 + dWASO14 + dWASO18)/3
+sleepdata$dAROUSEmean <- (dAROUSE10 + dAROUSE14 + dAROUSE18)/3
+
+#actigraphy variables
+sleepdata$aSEmean <- (aSE10 + aSE14 + aSE18)/3
+sleepdata$aSLmean <- (aSL10 + aSL14 + aSL18)/3
+sleepdata$aWASOmean <- (aWASO10 + aWASO14 + aWASO18)/3
+
+#sleep quality variables
+sleepdata$PSQImean <- (PSQI10 + PSQI14 + PSQI18)/3
+sleepdata$dVASmean <- (dVAS10 + dVAS14 + dVAS18)/3
+sleepdata$aFRAGmean <- (aFRAG10 + aFRAG14 + aFRAG18)/3
+
+#Inflammatory marker variables
+sleepdata$IL_6mean <- (IL6_10 + IL6_14 + IL6_18)/3
+sleepdata$INFGmean <- (INFG10 + INFG14 + INFG18)/3
+sleepdata$TNFamean <- (TNFa_10 + TNFa_14 + TNFa_18)/3
+
+#demographic variables or covariates
+sleepdata$PSSmean <- (PSS10 + PSS14 + PSS18)/3
+sleepdata$APGARmean <- (APGAR1 + APGAR5)/2
+
+#change relationship type to attached yes/no
+sleepdata$rscat[S1_Married > 3] <- "0"
+sleepdata$rscat[S1_Married <= 2] <- "1"
+
+# Descriptive statistics for every variable.  Item name, number, how many valid records, mean, sd, median, mad, min, max, skew, kurtosis, se
+library(psych)
+describe(sleepdata)
+
+#Log Transform Skewed/Kurt Variables
+sleepdata$IL6 <- log10(IL_6mean)
+sleepdata$INFG <- log10(INFGmean)
+sleepdata$APGAR <- log10(APGARmean)
+sleepdata$dSL <- log10(dSLmean)
+sleepdata$GestAge <- log10(O_GestationalAge)
+
+#New Descriptives
+library(psych)
+describe(sleepdata)
+
+
+
+
