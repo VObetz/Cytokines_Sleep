@@ -1,5 +1,9 @@
 #pull the data into R
 library(readxl)
+library(psych)
+library(plyr)
+library(Hmisc)
+library(ggplot)
 sleepdata <- read_excel("C:/Users/veray/Desktop/sleepdata.xlsx")
 View(sleepdata)
 
@@ -37,6 +41,9 @@ sleepdata$APGARmean <- (APGAR1 + APGAR5)/2
 sleepdata$rscat[S1_Married > 3] <- "0"
 sleepdata$rscat[S1_Married <= 2] <- "1"
 
+#imput mean BMI into missing BMI variables
+sleepdata$S1_BMI[is.na(sleepdata$S1_BMI)] <- mean(sleepdata$S1_BMI, na.rm = TRUE)
+
 # Descriptive statistics for every variable.  Item name, number, how many valid records, mean, sd, median, mad, min, max, skew, kurtosis, se
 library(psych)
 describe(sleepdata)
@@ -46,7 +53,6 @@ sleepdata$IL6 <- log10(IL_6mean)
 sleepdata$INFG <- log10(INFGmean)
 sleepdata$APGAR <- log10(APGARmean)
 sleepdata$dSL <- log10(dSLmean)
-sleepdata$GestAge <- log10(O_GestationalAge)
 
 #New Descriptives
 library(psych)
