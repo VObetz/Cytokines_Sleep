@@ -93,6 +93,17 @@ t.test(IL6~O_Complication01)
 t.test(INFG~O_Complication01)
 t.test(TNFamean~O_Complication01)
 
+t.test(dWASOmean~O_Complication01)
+t.test(dTSTmean~O_Complication01)
+t.test(dSEmean~O_Complication01)
+t.test(dSLmean~O_Complication01)
+t.test(dAROUSEmean~O_Complication01)
+
+t.test(aWASOmean~O_Complication01)
+t.test(aSEmean~O_Complication01)
+t.test(aSLmean~O_Complication01)
+t.test(aFRAGmean~O_Complication01)
+
 #test for correlations
 cor.test(dWASOmean, IL6)
 cor.test(dWASOmean, TNFamean)
@@ -163,3 +174,82 @@ cor.test(PSQIMean, INFG)
 cor.test(PSQIMean, O_Complication01)
 cor.test(PSQIMean, O_GestationalAge) #sig
 cor.test(PSQIMean, O_Infant_Weight) #sig
+
+GAfit1<- lm(O_GestationalAge ~ S1_Age + S1_BMI + S1_Parity1, data=sleepdata)
+
+GAfit2 <- lm(O_GestationalAge ~ S1_Age + S1_BMI + S1_Parity1 + aWASOmean + aSLmean + aSEmean + aFRAGmean, data=sleepdata)
+
+GAfit3 <- lm(O_GestationalAge ~ S1_Age + S1_BMI + S1_Parity1 + dAROUSEmean + dSLmean + dSEmean + dWASOmean + aWASOmean + aSLmean + aSEmean + aFRAGmean, data=sleepdata)
+
+GAfit4 <- lm(O_GestationalAge ~ S1_Age + S1_BMI + S1_Parity1 + dAROUSEmean + dSLmean + dSEmean + dWASOmean + dTSTmean + aWASOmean + aSLmean + aSEmean + aFRAGmean, data=sleepdata)
+
+GAfit5 <- lm(O_GestationalAge ~ S1_Age + S1_BMI + S1_Parity1 + aWASOmean + aSLmean + aSEmean + aFRAGmean + dAROUSEmean + dSLmean + dSEmean + dTSTmean+ dWASOmean + IL6 + INFG + TNFamean, data=sleepdata)
+
+summary(GAfit1)
+summary(GAfit2
+summary(GAfit3)
+summary(GAfit4)
+
+vif(GAfit4) # variance inflation factors 
+sqrt(vif(GAfit4)) > 2 # problem?
+
+IWfit1 <- lm(O_Infant_Weight ~ S1_Age + S1_BMI + S1_Parity1, data=sleepdata)
+summary(IWfit1)
+
+IWfit2 <- lm(O_Infant_Weight ~ S1_Age + S1_BMI + S1_Parity1 + dAROUSEmean + dSLmean + dSEmean + dWASOmean + dTSTmean, data=sleepdata)
+summary(IWfit2)
+
+IWfit3 <- lm(O_Infant_Weight ~ S1_Age + S1_BMI + S1_Parity1 + dAROUSEmean + dSLmean + dSEmean + dWASOmean + dTSTmean + aWASOmean + aSLmean + aSEmean + aFRAGmean, data=sleepdata)
+summary(IWfit3)
+
+IWfit4 <- lm(O_Infant_Weight ~ S1_Age + S1_BMI + S1_Parity1 + dAROUSEmean + dSLmean + dSEmean + dWASOmean + dTSTmean + aWASOmean + aSLmean + aSEmean + aFRAGmean + IL6 + INFG + TNFamean, data=sleepdata)
+summary(IWfit4)
+
+APGARfit1 <- lm(APGARmean ~ S1_Age + S1_BMI + S1_Parity1, data=sleepdata)
+summary(APGARfit1)
+
+APGARfit2 <- lm(APGARmean ~ S1_Age + S1_BMI + S1_Parity1 + dAROUSEmean + dSLmean + dSEmean + dWASOmean + dTSTmean, data=sleepdata)
+summary(APGARfit2)
+
+APGARfit3 <- lm(APGARmean ~ S1_Age + S1_BMI + S1_Parity1 + dAROUSEmean + dSLmean + dSEmean + dWASOmean + dTSTmean + aWASOmean + aSLmean + aSEmean + aFRAGmean, data=sleepdata)
+summary(APGARfit3)
+
+APGARfit4 <- lm(APGARmean ~ S1_Age + S1_BMI + S1_Parity1 + dAROUSEmean + dSLmean + dSEmean + dWASOmean + dTSTmean + aWASOmean + aSLmean + aSEmean + aFRAGmean + IL6 + INFG + TNFamean, data=sleepdata)
+summary(APGARfit4)
+
+Compfit1 <- glm(O_Complication01 ~ S1_Age + S1_BMI + S1_Parity1, data=sleepdata)
+summary(Compfit1)
+
+Compfit2 <- glm(O_Complication01 ~ S1_Age + S1_BMI + S1_Parity1 + dAROUSEmean + dSLmean + dSEmean + dWASOmean + dTSTmean, data=sleepdata)
+summary(Compfit2)
+
+Compfit3 <- glm(O_Complication01 ~ S1_Age + S1_BMI + S1_Parity1 + dAROUSEmean + dSLmean + dSEmean + dWASOmean + dTSTmean + aWASOmean + aSLmean + aSEmean + aFRAGmean, data=sleepdata)
+summary(Compfit3)
+
+Compfit4 <- glm(O_Complication01 ~ S1_Age + S1_BMI + S1_Parity1 + dAROUSEmean + dSLmean + dSEmean + dWASOmean + dTSTmean + aWASOmean + aSLmean + aSEmean + aFRAGmean + IL6 + INFG + TNFamean, data=sleepdata)
+summary(Compfit4)
+
+
+APGARfit6 <- lm(APGARmean ~ IL6 + INFG + TNFamean, data=sleepdata)
+summary(APGARfit6)
+GAfit6 <- lm(O_Gestationalage ~ IL6 + INFG + TNFamean, data=sleepdata)
+summary(GAfit6)
+IWfit6 <- lm(O_Infant_Weight ~ IL6 + INFG + TNFamean, data=sleepdata)
+summary(IWfit6)
+Compfit6 <- glm(O_Complication01 ~ IL6 + INFG + TNFamean, data=sleepdata)
+summary(Compfit6)
+
+
+
+APGARfit3 <- lm(APGARmean ~ dAROUSEmean + dSLmean + dSEmean + dWASOmean + dTSTmean + aWASOmean + aSLmean + aSEmean + aFRAGmean, data=sleepdata)
+summary(APGARfit3)
+
+
+IWfit3 <- lm(O_Infant_Weight ~ dAROUSEmean + dSLmean + dSEmean + dWASOmean + dTSTmean + aWASOmean + aSLmean + aSEmean + aFRAGmean, data=sleepdata)
+summary(IWfit3)
+
+GAfit3 <- lm(O_GestationalAge ~ dAROUSEmean + dSLmean + dSEmean + dWASOmean + dTSTmean + aWASOmean + aSLmean + aSEmean + aFRAGmean, data=sleepdata)
+summary(GAfit3)
+
+Compfit3 <- glm(O_Complication01 ~ dAROUSEmean + dSLmean + dSEmean + dWASOmean + dTSTmean + aWASOmean + aSLmean + aSEmean + aFRAGmean, data=sleepdata)
+summary(Compfit3)
