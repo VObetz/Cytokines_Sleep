@@ -3,7 +3,8 @@ library(readxl)
 library(psych)
 library(plyr)
 library(Hmisc)
-library(ggplot)
+library(ggplot2)
+get0option(max.print)
 sleepdata <- read_excel("C:/Users/veray/Desktop/sleepdata.xlsx")
 View(sleepdata)
 
@@ -17,47 +18,148 @@ sleepdata$dSLmean <- (dSL10 + dSL14 + dSL18)/3
 sleepdata$dSEmean <- (dSE1_10 + dSE1_14 + dSE1_18 + dSE2_10 + dSE2_14 + dSE2_18)/6
 sleepdata$dWASOmean <- (dWASO10 + dWASO14 + dWASO18)/3
 sleepdata$dAROUSEmean <- (dAROUSE10 + dAROUSE14 + dAROUSE18)/3
+detach(sleepdata)
 
 #actigraphy variables
+attach(sleepdata)
 sleepdata$aSEmean <- (aSE10 + aSE14 + aSE18)/3
 sleepdata$aSLmean <- (aSL10 + aSL14 + aSL18)/3
 sleepdata$aWASOmean <- (aWASO10 + aWASO14 + aWASO18)/3
+detach(sleepdata)
 
 #sleep quality variables
+attach(sleepdata)
 sleepdata$PSQImean <- (PSQI10 + PSQI14 + PSQI18)/3
 sleepdata$dVASmean <- (dVAS10 + dVAS14 + dVAS18)/3
 sleepdata$aFRAGmean <- (aFRAG10 + aFRAG14 + aFRAG18)/3
+detach(sleepdata)
 
 #Inflammatory marker variables
+attach(sleepdata)
 sleepdata$IL_6mean <- (IL6_10 + IL6_14 + IL6_18)/3
 sleepdata$INFGmean <- (INFG10 + INFG14 + INFG18)/3
 sleepdata$TNFamean <- (TNFa_10 + TNFa_14 + TNFa_18)/3
+detach(sleepdata)
 
 #demographic variables or covariates
+attach(sleepdata)
 sleepdata$PSSmean <- (PSS10 + PSS14 + PSS18)/3
 sleepdata$APGARmean <- (APGAR1 + APGAR5)/2
+detach(sleepdata)
 
 #change relationship type to attached yes/no
+attach(sleepdata)
+sleepdata$rscat <- NA
 sleepdata$rscat[S1_Married > 3] <- "0"
 sleepdata$rscat[S1_Married <= 2] <- "1"
-
-#imput mean BMI into missing BMI variables
-sleepdata$S1_BMI[is.na(sleepdata$S1_BMI)] <- mean(sleepdata$S1_BMI, na.rm = TRUE)
+sleepdata$PSQIGroup <- NA
+sleepdata$PSQIGroup[PSQImean > 5] <- "1"
+sleepdata$PSQIGroup[PSQImean <= 5] <- "0"
+detach(sleepdata)
 
 # Descriptive statistics for every variable.  Item name, number, how many valid records, mean, sd, median, mad, min, max, skew, kurtosis, se
 library(psych)
+attach(sleepdata)
 describe(sleepdata)
+detach(sleepdata)
 
 #Log Transform Skewed/Kurt Variables
+attach(sleepdata)
 sleepdata$IL6 <- log10(IL_6mean)
 sleepdata$INFG <- log10(INFGmean)
 sleepdata$APGAR <- log10(APGARmean)
 sleepdata$dSL <- log10(dSLmean)
+detach(sleepdata)
 
 #New Descriptives
 library(psych)
+attach(sleepdata)
 describe(sleepdata)
+detach(sleepdata)
 
+#run t.tests on outcome variables based on PSQI cut off
+#cytokine markers
+t.test(IL6~PSQIGroup)
+t.test(INFG~PSQIGroup)
+t.test(TNFamean~PSQIGroup)
 
+#pregnancy outcomes
+t.test(APGAR~PSQIGroup)
+t.test(O_GestationalAge~PSQIGroup) 
+t.test(O_Infant_Weight~PSQIGroup)#sig
+t.test(O_Complication01~PSQIGroup)
 
+t.test(IL6~O_Complication01)
+t.test(INFG~O_Complication01)
+t.test(TNFamean~O_Complication01)
 
+#test for correlations
+cor.test(dWASOmean, IL6)
+cor.test(dWASOmean, TNFamean)
+cor.test(dWASOmean, INFG)
+cor.test(dWASOmean, O_Complication01)
+cor.test(dWASOmean, O_GestationalAge)
+cor.test(dWASOmean, O_Infant_Weight)
+
+cor.test(dWASOmean, IL6)
+cor.test(dWASOmean, TNFamean)
+cor.test(dWASOmean, INFG)
+cor.test(dWASOmean, O_Complication01)
+cor.test(dWASOmean, O_GestationalAge)
+cor.test(dWASOmean, O_Infant_Weight)
+
+cor.test(dTSTmean, IL6)
+cor.test(dTSTmean, TNFamean) 
+cor.test(dTSTmean, INFG)
+cor.test(dTSTmean, O_Complication01)
+cor.test(dTSTmean, O_GestationalAge)
+cor.test(dTSTmean, O_Infant_Weight)
+
+cor.test(dSLmean, IL6) #sig
+cor.test(dSLmean, TNFamean) 
+cor.test(dSLmean, INFG)
+cor.test(dSLmean, O_Complication01)
+cor.test(dSLmean, O_GestationalAge) #sig
+cor.test(dSLmean, O_Infant_Weight)
+
+cor.test(dSEmean, IL6) #sig
+cor.test(dSEmean, TNFamean) 
+cor.test(dSEmean, INFG)
+cor.test(dSEmean, O_Complication01)
+cor.test(dSEmean, O_GestationalAge)
+cor.test(dSEmean, O_Infant_Weight)
+
+cor.test(aWASOmean, IL6)
+cor.test(aWASOmean, TNFamean) #sig
+cor.test(aWASOmean, INFG)
+cor.test(aWASOmean, O_Complication01)
+cor.test(aWASOmean, O_GestationalAge)
+cor.test(aWASOmean, O_Infant_Weight)
+
+cor.test(aSEmean, IL6)
+cor.test(aSEmean, TNFamean) 
+cor.test(aSEmean, INFG)
+cor.test(aSEmean, O_Complication01) #sig
+cor.test(aSEmean, O_GestationalAge)
+cor.test(aSEmean, O_Infant_Weight)
+
+cor.test(aSLmean, IL6)
+cor.test(aSLmean, TNFamean) 
+cor.test(aSLmean, INFG)
+cor.test(aSLmean, O_Complication01)
+cor.test(aSLmean, O_GestationalAge) #sig
+cor.test(aSLmean, O_Infant_Weight) #sig
+
+cor.test(PSQImean, IL6) #sig
+cor.test(PSQImean, TNFamean) 
+cor.test(PSQImean, INFG)
+cor.test(PSQImean, O_Complication01)
+cor.test(PSQImean, O_GestationalAge) 
+cor.test(PSQImean, O_Infant_Weight) 
+
+cor.test(PSQIMean, IL6) #sig
+cor.test(PSQIMean, TNFamean) 
+cor.test(PSQIMean, INFG)
+cor.test(PSQIMean, O_Complication01)
+cor.test(PSQIMean, O_GestationalAge) #sig
+cor.test(PSQIMean, O_Infant_Weight) #sig
