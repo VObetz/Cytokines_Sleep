@@ -1,0 +1,56 @@
+#pull the data into R
+library(readxl)
+library(psych)
+library(plyr)
+library(Hmisc)
+library(ggplot2)
+get0option(max.print)
+sleepdata <- read_excel("C:/Users/veray/Desktop/sleepdata.xlsx")
+View(sleepdata)
+
+#compute the means for each variable, create new variables
+#diary variables
+attach(sleepdata)
+sleepdata$dTSTmean <- (dTST10 + dTST14 + dTST18)/3
+sleepdata$dSLmean <- (dSL10 + dSL14 + dSL18)/3
+sleepdata$dSEmean <- (dSE1_10 + dSE1_14 + dSE1_18 + dSE2_10 + dSE2_14 + dSE2_18)/6
+sleepdata$dWASOmean <- (dWASO10 + dWASO14 + dWASO18)/3
+sleepdata$dAROUSEmean <- (dAROUSE10 + dAROUSE14 + dAROUSE18)/3
+detach(sleepdata)
+
+#actigraphy variables
+attach(sleepdata)
+sleepdata$aSEmean <- (aSE10 + aSE14 + aSE18)/3
+sleepdata$aSLmean <- (aSL10 + aSL14 + aSL18)/3
+sleepdata$aWASOmean <- (aWASO10 + aWASO14 + aWASO18)/3
+detach(sleepdata)
+
+#sleep quality variables
+attach(sleepdata)
+sleepdata$PSQImean <- (PSQI10 + PSQI14 + PSQI18)/3
+sleepdata$dVASmean <- (dVAS10 + dVAS14 + dVAS18)/3
+sleepdata$aFRAGmean <- (aFRAG10 + aFRAG14 + aFRAG18)/3
+detach(sleepdata)
+
+#Inflammatory marker variables
+attach(sleepdata)
+sleepdata$IL_6mean <- (IL6_10 + IL6_14 + IL6_18)/3
+sleepdata$INFGmean <- (INFG10 + INFG14 + INFG18)/3
+sleepdata$TNFamean <- (TNFa_10 + TNFa_14 + TNFa_18)/3
+detach(sleepdata)
+
+#demographic variables or covariates
+attach(sleepdata)
+sleepdata$PSSmean <- (PSS10 + PSS14 + PSS18)/3
+sleepdata$APGARmean <- (APGAR1 + APGAR5)/2
+detach(sleepdata)
+
+#change relationship type to attached yes/no
+attach(sleepdata)
+sleepdata$rscat <- NA
+sleepdata$rscat[S1_Married > 3] <- "0"
+sleepdata$rscat[S1_Married <= 2] <- "1"
+sleepdata$PSQIGroup <- NA
+sleepdata$PSQIGroup[PSQImean > 5] <- "1"
+sleepdata$PSQIGroup[PSQImean <= 5] <- "0"
+detach(sleepdata)
