@@ -1,0 +1,49 @@
+our_summary1 <-
+  list("Age" =
+       list("mean (sd)" = ~ qwraps2::mean_sd(sleepdata$S1_Age)),
+       "Education" =
+       list("Less Than High School" = ~ qwraps2::n_perc0(sleepdata$S1_Education == 1),
+            "High School Graduate" = ~ qwraps2::n_perc0(sleepdata$S1_Education == 2),
+            "Technical or Trade School" = ~ qwraps2::n_perc0(sleepdata$S1_Education == 3),
+            "Some College" = ~ qwraps2::n_perc0(sleepdata$S1_Education == 4),
+            "College Graduate" = ~ qwraps2::n_perc0(sleepdata$S1_Education == 5),
+            "Some Graduate Work" = ~ qwraps2::n_perc0(sleepdata$S1_Education == 6),
+            "Graduate Degree" = ~ qwraps2::n_perc0(sleepdata$S1_Education == 7))
+       "Race" =
+       list("White" = ~ qwraps2::n_perc0(sleepdata$S1_Race == 1),
+            "African American"  = ~ qwraps2::n_perc0(sleepdata$S1_Race == 2),
+            "Asian"  = ~ qwraps2::n_perc0(sleepdata$S1_Race == 3),
+            "Hispanic"  = ~ qwraps2::n_perc0(sleepdata$S1_Race == 4),
+            "Other"  = ~ qwraps2::n_perc0(sleepdata$S1_Race == 6))
+       "Relationship Status" =
+       list("Married" = ~ qwraps2::n_perc0(sleepdata$S1_Married == 1),
+            "Living with Partner" = ~ qwraps2::n_perc0(sleepdata$S1_Married == 2),
+            "Separated" = ~ qwraps2::n_perc0(sleepdata$S1_Married == 3),        
+            "Divorced" = ~ qwraps2::n_perc0(sleepdata$S1_Married == 4),
+            "Widowed" = ~ qwraps2::n_perc0(sleepdata$S1_Married == 5),
+            "Never Married" = ~ qwraps2::n_perc0(sleepdata$S1_Married == 6))
+       "Parity" =
+       list("Yes" = ~ qwraps2::n_perc0(sleepdata$S1_Parity == 1))
+       whole <- summary_table(mtcars2, our_summary1)
+whole
+
+
+
+
+# ```{r setup, include=FALSE}
+# library(knitr)
+# opts_chunk$set(results = 'asis',     
+#                comment = NA, 
+#                prompt = FALSE, 
+#                cache = FALSE)
+#
+# library(summarytools)
+# st_options(plain.ascii = FALSE,     
+#            style = "rmarkdown"       
+#            footnote = NA           
+#            )                                     
+# ```
+
+# ```{r, echo=FALSE}
+# st_css()                             
+# ```                                
