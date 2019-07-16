@@ -1,8 +1,14 @@
 library(readxl)
-sleepdata <- read_excel("C:/Users/veray/Google Drive/Research Portfolio/Pregnancy Sleep/Data Files/Clean Data/Sleep Pregnancy Small Working Data.xlsx")
-View(sleepdata)
-attach(sleepdata)
-skim(sleepdata)
+library(psych)
+library(plyr)
+library(Hmisc)
+library(ggplot2)
 library(summarytools)
+
+getOption("max.print")
+
+sleepdata <- read_excel("C:/Users/veray/Google Drive/Research/PregnancySleep/Data/R/sleepdata.xlsx")
+
+attach(sleepdata)
 summarydata <- (summarytools::descr(sleepdata, transpose = TRUE))
 view(summarydata)
