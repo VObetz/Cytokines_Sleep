@@ -1,14 +1,3 @@
-
-#pull the data into R
-library(readxl)
-library(psych)
-library(plyr)
-library(Hmisc)
-library(ggplot2)
-get0option(max.print)
-sleepdata <- read_excel("C:/Users/veray/Desktop/sleepdata.xlsx")
-View(sleepdata)
-
 # Descriptive statistics for every variable.  Item name, number, how many valid records, mean, sd, median, mad, min, max, skew, kurtosis, se
 attach(sleepdata)
 describe(sleepdata)
