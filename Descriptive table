@@ -1,0 +1,8 @@
+library(readxl)
+sleepdata <- read_excel("C:/Users/veray/Google Drive/Research Portfolio/Pregnancy Sleep/Data Files/Clean Data/Sleep Pregnancy Small Working Data.xlsx")
+View(sleepdata)
+attach(sleepdata)
+skim(sleepdata)
+library(summarytools)
+summarydata <- (summarytools::descr(sleepdata, transpose = TRUE))
+view(summarydata)
